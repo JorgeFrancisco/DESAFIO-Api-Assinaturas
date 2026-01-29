@@ -2,7 +2,7 @@
 
 API REST para gerenciamento de usuários, planos e assinaturas com renovação automática, controle de falhas de pagamento e versionamento de preços.
 
-Projeto desenvolvido em **Java 17 + Spring Boot 4**, seguindo boas práticas de arquitetura, concorrência, testabilidade e design próximo de ambiente produtivo.
+Projeto desenvolvido em **Java 17 + Spring Boot 4** + Docker, seguindo boas práticas de arquitetura, concorrência, testabilidade e design próximo de ambiente produtivo.
 
 ---
 
@@ -38,26 +38,34 @@ Projeto desenvolvido em **Java 17 + Spring Boot 4**, seguindo boas práticas de 
 
 ---
 
-## 🚀 Executar a aplicação
+## 🐳 Executar a aplicação com Docker
 
-No diretório raiz do projeto, execute **uma das opções abaixo**:
-
-### 1ª opção – Executar via Maven
+### Build das imagens
 ```bash
-mvn spring-boot:run
+docker compose build
 ```
 
-### 2ª opção – Executar pela IDE (Eclipse / IntelliJ)
-1. Importar o projeto como **Maven Project**
-2. Localizar a classe `ApiAssinaturasApplication`
-3. Executar como **Java Application**
-
-### 3ª opção – Build completo + execução do JAR
+### Subir aplicação e banco
 ```bash
-mvn -U clean dependency:tree dependency:resolve dependency:resolve-plugins package \
-&& java -jar ./target/api-assinaturas-0.0.1-SNAPSHOT.jar
+docker compose up
 ```
 
+### Subir forçando rebuild
+```bash
+docker compose up --build
+```
+
+### Parar tudo e remover volumes (limpa banco)
+```bash
+docker compose down -v
+```
+
+### Remover também imagens
+```bash
+docker compose down -v --rmi all
+```
+
+⚠ Se precisar limpar a base, execute **down -v** e depois **up --build**
 ---
 
 ## 🧪 Executar os testes
