@@ -12,7 +12,7 @@ import com.globo.api_assinaturas.scheduler.RenewalRunner;
 
 @RestController
 @RequestMapping("/admin/renewals")
-@Profile("dev")
+@Profile({ "dev", "test" })
 public class AdminRenewalController {
 
 	private static final Logger log = LoggerFactory.getLogger(AdminRenewalController.class);
