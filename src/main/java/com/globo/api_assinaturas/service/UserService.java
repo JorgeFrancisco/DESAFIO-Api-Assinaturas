@@ -3,6 +3,8 @@ package com.globo.api_assinaturas.service;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +46,40 @@ public class UserService {
 	public UserResponse get(UUID id) {
 		var u = getEntity(id);
 
+		return new UserResponse(u.getId(), u.getName(), u.getEmail(), u.getCreatedAt());
+	}
+
+	@Transactional(readOnly = true)
+	public Page<UserResponse> search(String name, String email, Pageable pageable) {
+		String n = normalize(name);
+		String e = normalize(email);
+
+		Page<AppUser> page;
+
+		if (n != null && e != null) {
+			page = repo.findByNameContainingIgnoreCaseAndEmailContainingIgnoreCase(n, e, pageable);
+		} else if (n != null) {
+			page = repo.findByNameContainingIgnoreCase(n, pageable);
+		} else if (e != null) {
+			page = repo.findByEmailContainingIgnoreCase(e, pageable);
+		} else {
+			page = repo.findAll(pageable);
+		}
+
+		return page.map(this::toResponse);
+	}
+
+	private String normalize(String s) {
+		if (s == null) {
+			return null;
+		}
+
+		String t = s.trim();
+
+		return t.isEmpty() ? null : t;
+	}
+
+	private UserResponse toResponse(AppUser u) {
 		return new UserResponse(u.getId(), u.getName(), u.getEmail(), u.getCreatedAt());
 	}
 }
