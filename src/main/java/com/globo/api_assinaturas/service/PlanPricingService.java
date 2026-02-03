@@ -2,7 +2,10 @@ package com.globo.api_assinaturas.service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -37,6 +40,12 @@ public class PlanPricingService {
 	public PlanPrice getCurrentPrice(String planCode) {
 		return priceRepo.findCurrent(planCode)
 				.orElseThrow(() -> new NotFoundException("Preço vigente não encontrado para plano " + planCode));
+	}
+
+	@Transactional(readOnly = true)
+	public Map<String, PlanPrice> getCurrentPricesForActivePlans() {
+		return priceRepo.findCurrentPricesForActivePlans().stream()
+				.collect(Collectors.toUnmodifiableMap(pp -> pp.getPlan().getCode(), Function.identity()));
 	}
 
 	/**

@@ -51,7 +51,8 @@ class PlanControllerWebMvcTest {
 
 		mvc.perform(get("/plans").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$.length()").value(2))
-				.andExpect(jsonPath("$[0].code").value("BASIC")).andExpect(jsonPath("$[1].code").value("PREMIUM"));
+				.andExpect(jsonPath("$[0].code").value("BASIC")).andExpect(jsonPath("$[1].code").value("PREMIUM"))
+				.andExpect(jsonPath("$[0].maxScreens").value(1)).andExpect(jsonPath("$[1].maxScreens").value(2));
 	}
 
 	@Test
@@ -60,7 +61,8 @@ class PlanControllerWebMvcTest {
 				Instant.parse("2026-01-01T00:00:00Z")));
 
 		mvc.perform(get("/plans/{code}", "BASIC").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(jsonPath("$.code").value("BASIC")).andExpect(jsonPath("$.name").value("Básico"));
+				.andExpect(jsonPath("$.code").value("BASIC")).andExpect(jsonPath("$.name").value("Básico"))
+				.andExpect(jsonPath("$.maxScreens").value(1));
 	}
 
 	@Test
@@ -76,7 +78,8 @@ class PlanControllerWebMvcTest {
 						}
 						""")).andExpect(status().isOk()).andExpect(jsonPath("$.code").value("BASIC"))
 				.andExpect(jsonPath("$.currentPrice").value(29.9))
-				.andExpect(jsonPath("$.priceValidFrom").value("2026-02-01T00:00:00Z"));
+				.andExpect(jsonPath("$.priceValidFrom").value("2026-02-01T00:00:00Z"))
+				.andExpect(jsonPath("$.maxScreens").value(1));
 	}
 
 	@Test

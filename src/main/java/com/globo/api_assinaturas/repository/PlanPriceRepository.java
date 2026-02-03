@@ -1,6 +1,7 @@
 package com.globo.api_assinaturas.repository;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,4 +28,13 @@ public interface PlanPriceRepository extends JpaRepository<PlanPrice, UUID> {
 			where p.code = :planCode and pp.validTo is null
 			""")
 	Optional<PlanPrice> findCurrent(String planCode);
+
+	@Query("""
+			   select pp
+			   from PlanPrice pp
+			   join fetch pp.plan p
+			   where p.active = true
+			     and pp.validTo is null
+			""")
+	List<PlanPrice> findCurrentPricesForActivePlans();
 }

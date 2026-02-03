@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import com.globo.api_assinaturas.domain.enums.SubscriptionStatus;
+import com.globo.api_assinaturas.enums.SubscriptionStatus;
 
 @Entity
 @Table(name = "subscription")

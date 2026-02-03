@@ -28,4 +28,7 @@ public class Plan {
 
 	@Column(nullable = false)
 	private boolean active = true;
+
+	@Column(name = "max_screens", nullable = false)
+	private Integer maxScreens;
 }

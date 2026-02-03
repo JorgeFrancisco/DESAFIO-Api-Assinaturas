@@ -13,7 +13,8 @@ CREATE TABLE app_user (
 CREATE TABLE plan (
   code VARCHAR(32) PRIMARY KEY,
   name VARCHAR(120) NOT NULL,
-  active BOOLEAN NOT NULL DEFAULT true
+  active BOOLEAN NOT NULL DEFAULT true,
+  max_screens INT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE plan_price (
@@ -64,10 +65,10 @@ CREATE TABLE payment_attempt (
 );
 
 -- Seeds: planos + preço inicial vigente
-INSERT INTO plan(code, name, active) VALUES
-  ('BASIC', 'Básico', true),
-  ('PREMIUM', 'Premium', true),
-  ('FAMILY', 'Família', true);
+INSERT INTO plan(code, name, active, max_screens) VALUES
+  ('BASIC', 'Básico', true, 1),
+  ('PREMIUM', 'Premium', true, 2),
+  ('FAMILY', 'Família', true, 4);
 
 INSERT INTO plan_price(id, plan_code, price, valid_from, valid_to)
 VALUES

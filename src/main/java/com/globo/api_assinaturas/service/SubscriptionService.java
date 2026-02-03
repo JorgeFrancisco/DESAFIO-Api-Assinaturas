@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.globo.api_assinaturas.domain.PaymentAttempt;
 import com.globo.api_assinaturas.domain.Subscription;
-import com.globo.api_assinaturas.domain.enums.PaymentAttemptStatus;
-import com.globo.api_assinaturas.domain.enums.SubscriptionStatus;
 import com.globo.api_assinaturas.dto.CreateSubscriptionRequest;
 import com.globo.api_assinaturas.dto.SubscriptionResponse;
+import com.globo.api_assinaturas.enums.PaymentAttemptStatus;
+import com.globo.api_assinaturas.enums.SubscriptionStatus;
 import com.globo.api_assinaturas.exceptions.BadRequestException;
 import com.globo.api_assinaturas.exceptions.ConflictException;
 import com.globo.api_assinaturas.exceptions.NotFoundException;

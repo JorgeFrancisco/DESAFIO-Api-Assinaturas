@@ -1,4 +1,4 @@
-package com.globo.api_assinaturas.domain.enums;
+package com.globo.api_assinaturas.enums;
 
 public enum SubscriptionStatus {
 

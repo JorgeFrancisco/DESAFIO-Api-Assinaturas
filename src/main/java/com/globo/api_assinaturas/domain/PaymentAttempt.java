@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
-import com.globo.api_assinaturas.domain.enums.PaymentAttemptStatus;
+import com.globo.api_assinaturas.enums.PaymentAttemptStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

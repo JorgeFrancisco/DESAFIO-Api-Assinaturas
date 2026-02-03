@@ -21,8 +21,8 @@ import org.junit.jupiter.api.Test;
 
 import com.globo.api_assinaturas.config.RenewalProperties;
 import com.globo.api_assinaturas.domain.Subscription;
-import com.globo.api_assinaturas.domain.enums.SubscriptionStatus;
 import com.globo.api_assinaturas.dto.RenewalRunResponse;
+import com.globo.api_assinaturas.enums.SubscriptionStatus;
 import com.globo.api_assinaturas.repository.SubscriptionRepository;
 import com.globo.api_assinaturas.scheduler.RenewalRunner;
 import com.globo.api_assinaturas.service.SubscriptionService;

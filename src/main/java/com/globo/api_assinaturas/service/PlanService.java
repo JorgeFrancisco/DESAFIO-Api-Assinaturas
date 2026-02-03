@@ -9,7 +9,6 @@ import com.globo.api_assinaturas.domain.Plan;
 import com.globo.api_assinaturas.domain.PlanPrice;
 import com.globo.api_assinaturas.dto.PlanResponse;
 import com.globo.api_assinaturas.exceptions.NotFoundException;
-import com.globo.api_assinaturas.plan.PlanPolicyRegistry;
 import com.globo.api_assinaturas.repository.PlanRepository;
 
 @Service
@@ -17,32 +16,36 @@ public class PlanService {
 
 	private final PlanRepository planRepo;
 	private final PlanPricingService pricingService;
-	private final PlanPolicyRegistry policyRegistry;
 
-	public PlanService(PlanRepository planRepo, PlanPricingService pricingService, PlanPolicyRegistry policyRegistry) {
+	public PlanService(PlanRepository planRepo, PlanPricingService pricingService) {
 		this.planRepo = planRepo;
 		this.pricingService = pricingService;
-		this.policyRegistry = policyRegistry;
 	}
 
 	@Transactional(readOnly = true)
 	public List<PlanResponse> list() {
-		return planRepo.findAll().stream().map(this::toResponse).toList();
+		var currentPrices = pricingService.getCurrentPricesForActivePlans();
+
+		return planRepo.findAllByActiveTrue().stream().map(plan -> toResponse(plan, currentPrices.get(plan.getCode())))
+				.toList();
 	}
 
 	@Transactional(readOnly = true)
 	public PlanResponse get(String code) {
-		Plan plan = planRepo.findById(code).orElseThrow(() -> new NotFoundException("Plano não encontrado: " + code));
+		Plan plan = planRepo.findById(code).filter(Plan::isActive)
+				.orElseThrow(() -> new NotFoundException("Plano não encontrado: " + code));
 
-		return toResponse(plan);
+		var price = pricingService.getCurrentPrice(plan.getCode());
+
+		return toResponse(plan, price);
 	}
 
-	private PlanResponse toResponse(Plan plan) {
-		var policy = policyRegistry.get(plan.getCode());
+	private PlanResponse toResponse(Plan plan, PlanPrice price) {
+		if (price == null) {
+			throw new IllegalStateException("Plano ativo sem preço vigente: " + plan.getCode());
+		}
 
-		PlanPrice price = pricingService.getCurrentPrice(plan.getCode());
-
-		return new PlanResponse(plan.getCode(), plan.getName(), plan.isActive(), policy.maxScreens(), price.getPrice(),
+		return new PlanResponse(plan.getCode(), plan.getName(), plan.isActive(), plan.getMaxScreens(), price.getPrice(),
 				price.getValidFrom());
 	}
 }

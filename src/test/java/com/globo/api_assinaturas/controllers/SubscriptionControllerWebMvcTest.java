@@ -18,8 +18,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.globo.api_assinaturas.controller.SubscriptionController;
-import com.globo.api_assinaturas.domain.enums.SubscriptionStatus;
 import com.globo.api_assinaturas.dto.SubscriptionResponse;
+import com.globo.api_assinaturas.enums.SubscriptionStatus;
 import com.globo.api_assinaturas.exceptions.NotFoundException;
 import com.globo.api_assinaturas.handler.GlobalExceptionHandler;
 import com.globo.api_assinaturas.service.SubscriptionService;

@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.globo.api_assinaturas.domain.Subscription;
-import com.globo.api_assinaturas.domain.enums.SubscriptionStatus;
+import com.globo.api_assinaturas.enums.SubscriptionStatus;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, UUID> {
 
